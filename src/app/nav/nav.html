@@ -1,0 +1,140 @@
+<nav
+  class="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm transition-all duration-300"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-20">
+      <a routerLink="/" class="flex-shrink-0 flex items-center cursor-pointer">
+        <h1 class="font-serif text-3xl font-bold text-primary tracking-tight">Riphah</h1>
+      </a>
+
+      <div class="hidden md:flex items-center space-x-8">
+        <a
+          routerLink="/events"
+          class="text-gray-700 hover:text-primary font-medium transition-colors"
+        >
+          Events</a
+        >
+        @if(adminStudBtn === 'teacher'){
+        <a
+          routerLink="/teachers"
+          class="text-gray-700 hover:text-primary font-medium transition-colors"
+          >Teacher-Portal</a
+        >} @if(adminStudBtn === 'student'){
+        <a
+          routerLink="/student"
+          class="text-gray-700 hover:text-primary font-medium transition-colors"
+          >Student Portal</a
+        >} @if(adminStudBtn === 'admin'){
+        <a
+          routerLink="/admin"
+          class="text-gray-700 hover:text-primary font-medium transition-colors"
+          >Admin</a
+        >}
+
+        <a
+          routerLink="/admissions"
+          class="text-gray-700 hover:text-primary font-medium transition-colors"
+          >Admissions</a
+        >
+        <a
+          routerLink="/faculty"
+          class="text-gray-700 hover:text-primary font-medium transition-colors"
+          >Faculties</a
+        >
+        <a
+          routerLink="/contact"
+          class="text-gray-700 hover:text-primary font-medium transition-colors"
+          >Contact</a
+        >
+
+        <div class="flex items-center space-x-4 ml-4">
+          <a
+            routerLink="/signin"
+            class="text-primary py-1 px-4 rounded font-semibold bg-blue-100 hover:text-blue-800"
+            >Sign In</a
+          >
+          @if(adminStudBtn === 'student' || adminStudBtn === ''){
+          <a routerLink="/apply" class="btn-primary text-sm">Apply Now</a>}
+        </div>
+      </div>
+
+      <div class="md:hidden flex items-center">
+        <button (click)="toggleNav()" aria-label="Toggle menu" class="p-2 rounded-md">
+          @if(!isNavOpen){
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+          } @if(isNavOpen){
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+  @if(isNavOpen){
+  <div class="md:hidden">
+    <div class="fixed inset-0 bg-black/40 z-40" (click)="closeNav()"></div>
+    <div class="relative z-50 bg-white/95 backdrop-blur-md shadow-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col py-4 space-y-2">
+          <a routerLink="/events" class="px-4 py-3 text-gray-700 hover:text-primary">Events</a>
+          @if (adminStudBtn === 'teacher') {
+          <a routerLink="/teachers" class="px-4 py-3 text-gray-700 hover:text-primary"
+            >Teacher-Portal</a
+          >} @if(adminStudBtn === 'student'){
+          <a routerLink="/student" class="px-4 py-3 text-gray-700 hover:text-primary"
+            >Student Portal</a
+          >} @if(adminStudBtn === 'admin'){
+          <a routerLink="/admin" class="px-4 py-3 text-gray-700 hover:text-primary">Admin</a>}
+
+          <a
+            (click)="closeNav()"
+            routerLink="/admissions"
+            class="px-4 py-3 text-gray-700 hover:text-primary"
+            >Admissions</a
+          >
+          <a
+            (click)="closeNav()"
+            routerLink="/faculty"
+            class="px-4 py-3 text-gray-700 hover:text-primary"
+            >Faculties</a
+          >
+          <a
+            (click)="closeNav()"
+            routerLink="/contact"
+            class="px-4 py-3 text-gray-700 hover:text-primary"
+            >Contact</a
+          >
+
+          <div class="px-4 pt-2 pb-4 flex flex-col gap-2">
+            <a
+              (click)="closeNav()"
+              routerLink="/signin"
+              class="py-2 px-4 rounded font-semibold bg-blue-100 text-center"
+              >Sign In</a
+            >
+            @if(adminStudBtn === 'student' || adminStudBtn === '' ){
+            <a (click)="closeNav()" routerLink="/apply" class="btn-primary text-center py-2 rounded"
+              >Apply Now</a
+            >}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</nav>
+
+<router-outlet></router-outlet>

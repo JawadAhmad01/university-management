@@ -1,0 +1,130 @@
+<div class="min-h-screen bg-gray-50 text-gray-800 flex absolute top-0 right-0" style="width: 75vw">
+  <main class="flex-1 overflow-y-auto p-6 md:p-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+        <div>
+          <h2 class="text-3xl font-serif font-bold text-primary">Applications</h2>
+          <div class="text-sm text-gray-500 mt-1">Review and manage student applications</div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <input
+            type="text"
+            [(ngModel)]="searchVal"
+            (input)="search()"
+            placeholder="Search applications..."
+            class="px-4 py-2 border outline-none rounded-lg w-64"
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <div class="card">
+            <h3 class="font-bold text-lg text-primary mb-4">Applicant List</h3>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-left">
+                <thead class="text-xs text-gray-500 uppercase bg-gray-50">
+                  <tr>
+                    <th class="px-4 py-3 rounded-l-lg">ID</th>
+                    <th class="px-4 py-3">Name</th>
+                    <th class="px-4 py-3">Program</th>
+                    <th class="px-4 py-3">email</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3 rounded-r-lg">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+                  @for (item of apliObs |async; track $index) {
+                  <tr
+                    class="hover:bg-gray-50 transition-colors cursor-pointer all"
+                    (click)="details(item.id)"
+                  >
+                    <td class="px-4 py-3 font-medium">{{ item.id }}</td>
+                    <td class="px-4 py-3 name">{{ item.fullName }}</td>
+                    <td class="px-4 py-3">{{ item.program }}</td>
+                    <td class="px-4 py-3 email">{{ item.email }}</td>
+                    <td class="px-4 py-3">
+                      @if(item.status === 'approved') {
+                      <span class="px-2 py-1 bg-green-500 text-black-700 rounded text-xs font-bold">
+                        approved </span
+                      >} @if(item.status === 'rejected') {
+                      <span
+                        class="px-2 py-1 bg-red-500/80 text-black-700 rounded text-xs font-bold"
+                      >
+                        rejected </span
+                      >} @if(item.status === 'pending') {
+                      <span
+                        class="px-2 py-1 bg-yellow-500 text-yellow-700 rounded text-xs font-bold"
+                      >
+                        pending </span
+                      >}
+                    </td>
+                    <td class="px-4 py-3">
+                      <div class="flex items-center gap-2">
+                        <button
+                          (click)="approve(item.id)"
+                          class="px-3 py-1 bg-green-50 border cursor-pointer border-green-200 rounded text-green-700 text-xs"
+                        >
+                          Approve
+                        </button>
+                        <button
+                          (click)="reject(item.id)"
+                          class="px-3 py-1 bg-red-50 border cursor-pointer border-red-200 rounded text-red-700 text-xs"
+                        >
+                          Reject
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+              @if(showMsg){
+              <div>No Results Related to Search</div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-1">
+          <div class="card">
+            <h3 class="font-bold text-lg text-primary mb-4">Application Details</h3>
+
+            <div class="space-y-4 text-sm">
+              <div>
+                <div class="text-gray-500">Full Name</div>
+                <div class="font-medium">{{ userDetail.fullName }}</div>
+              </div>
+
+              <div>
+                <div class="text-gray-500">Email</div>
+                <div class="font-medium">{{ userDetail.email }}</div>
+              </div>
+
+              <div>
+                <div class="text-gray-500">Phone</div>
+                <div class="font-medium">{{ userDetail.phone }}</div>
+              </div>
+
+              <div>
+                <div class="text-gray-500">Program</div>
+                <div class="font-medium">{{ userDetail.program }}</div>
+              </div>
+              <div>
+                <div class="text-gray-500">Status</div>
+                <div class="font-medium">{{ userDetail.status }}</div>
+              </div>
+              <div>
+                <div class="text-gray-500">Message</div>
+                <div class="font-medium">{{ userDetail.message }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

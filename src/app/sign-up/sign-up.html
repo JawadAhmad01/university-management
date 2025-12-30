@@ -1,0 +1,88 @@
+<div
+  class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+>
+  <!-- Background decoration -->
+  <div class="absolute inset-0 z-0">
+    <div
+      class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20"
+    ></div>
+    <div
+      class="absolute -top-24 -right-24 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"
+    ></div>
+    <div
+      class="absolute -bottom-24 -left-24 w-96 h-96 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"
+    ></div>
+  </div>
+
+  <div
+    class="max-w-md w-full space-y-8 relative z-10 bg-white/80 backdrop-blur-lg p-10 rounded-2xl shadow-2xl border border-white/50"
+  >
+    <div class="text-center">
+      <h2 class="mt-6 text-3xl font-serif font-bold text-primary">Create Account</h2>
+      <p class="mt-2 text-sm text-gray-600">Join the Riphah today</p>
+    </div>
+
+    <form class="mt-8 space-y-6" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+      <div>
+        <div class="mb-4">
+          <label for="email" class="sr-only">E-mail</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            required
+            class="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm transition-all duration-300"
+            placeholder="example@ex.com"
+          />
+        </div>
+        <div>
+          <label for="password" class="sr-only">Password</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            required
+            class="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm transition-all duration-300"
+            placeholder="Password"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button
+          type="submit"
+          [disabled]="signUpForm.invalid"
+          class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-primary hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+            <!-- User Plus Icon -->
+            <svg
+              class="h-5 w-5 text-blue-300 group-hover:text-blue-200"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"
+              />
+            </svg>
+          </span>
+          Sign Up
+        </button>
+      </div>
+    </form>
+
+    <div class="text-center mt-4">
+      <p class="text-sm text-gray-600">
+        Already have an account?
+        <a
+          routerLink="/signin"
+          class="font-medium text-primary hover:text-blue-800 transition-colors"
+        >
+          Sign in
+        </a>
+      </p>
+    </div>
+  </div>
+</div>

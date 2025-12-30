@@ -1,1 +1,42 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'tailwindcss';
+
+@theme {
+  --color-primary: #002147; /* Deep Blue */
+  --color-secondary: #FFD700; /* Gold */
+  --color-accent: #E5E7EB; /* Light Gray */
+  
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Merriweather', serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-sans text-gray-800 bg-gray-50;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-primary;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-2 bg-primary text-white rounded-lg hover:bg-blue-900 transition-colors duration-300 font-semibold shadow-md;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-2 bg-secondary text-primary rounded-lg hover:bg-yellow-400 transition-colors duration-300 font-semibold shadow-md;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-lg p-6 border border-gray-100;
+  }
+  
+  .glass-panel {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+}

@@ -1,0 +1,181 @@
+<div class="bg-gray-50 text-gray-800 flex absolute top-0 right-0 lg:w-screen" style="width: 75vw">
+  <main class="flex-1 overflow-y-auto p-6">
+    <div class="max-w-7xl">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+        <div>
+          <h2 class="text-3xl font-serif font-bold text-primary">Create Quiz</h2>
+          <div class="text-sm text-gray-500 mt-1">
+            Course: Data Structures • Semester 5 • Fall 2025
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="card lg:col-span-2 space-y-6">
+          <form [formGroup]="quizFrom" (ngSubmit)="submitQuizForm()">
+            <div class="p-5">
+              <h3 class="font-bold text-lg text-primary mb-4"></h3>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Quiz Title</label>
+                  <input
+                    formControlName="quizTitle"
+                    type="text"
+                    placeholder="Quiz 1: Arrays & Linked Lists"
+                    class="w-full px-3 py-2 border rounded-md text-sm"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Semester</label>
+                  <input
+                    formControlName="semester"
+                    type="text"
+                    placeholder="Semester"
+                    class="w-full px-3 py-2 border rounded-md text-sm"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Section</label>
+                  <input
+                    formControlName="section"
+                    type="text"
+                    placeholder="Section"
+                    class="w-full px-3 py-2 border rounded-md text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Course</label>
+                  <input
+                    formControlName="course"
+                    type="text"
+                    placeholder="Course Name"
+                    class="w-full px-3 py-2 border rounded-md text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Total Marks</label>
+                  <input
+                    formControlName="totMarks"
+                    type="number"
+                    placeholder="10"
+                    class="w-full px-3 py-2 border rounded-md text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-medium text-gray-600 mb-1"
+                    >Time Limit (minutes)</label
+                  >
+                  <input
+                    formControlName="timeLimit"
+                    type="number"
+                    placeholder="20"
+                    class="w-full px-3 py-2 border rounded-md text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label class="block text-xs font-medium text-gray-600 mb-1">Due Date</label>
+                  <input
+                    formControlName="dueDate"
+                    type="datetime-local"
+                    class="w-full px-3 py-2 border rounded-md text-sm"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-zinc-200 rounded p-5" formArrayName="questions">
+              @for (item of questions.controls; track $index) {
+              <div [formGroupName]="$index">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="font-bold text-lg text-primary">Questions</h3>
+                  <button
+                    (click)="addQuestion()"
+                    type="button"
+                    class="px-3 py-2 bg-green-50 text-green-700 border rounded-md text-sm"
+                  >
+                    + Add Question
+                  </button>
+                </div>
+
+                <div class="border rounded-lg p-4 mb-4 bg-gray-50">
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="font-semibold text-sm">Question 1</span>
+                    <button (click)="removeQuestion($index)" class="text-xs text-red-600">
+                      Remove
+                    </button>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="block text-xs font-medium text-gray-600 mb-1">Question</label>
+                    <textarea
+                      formControlName="question"
+                      rows="1"
+                      placeholder="What is the time complexity of binary search?"
+                      class="w-full px-3 py-2 border rounded-md text-sm"
+                    ></textarea>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <input
+                      formControlName="A"
+                      type="text"
+                      placeholder="Option A"
+                      class="px-3 py-2 border rounded-md text-sm"
+                    />
+                    <input
+                      formControlName="B"
+                      type="text"
+                      placeholder="Option B"
+                      class="px-3 py-2 border rounded-md text-sm"
+                    />
+                    <input
+                      formControlName="C"
+                      type="text"
+                      placeholder="Option C"
+                      class="px-3 py-2 border rounded-md text-sm"
+                    />
+                    <input
+                      formControlName="D"
+                      type="text"
+                      placeholder="Option D"
+                      class="px-3 py-2 border rounded-md text-sm"
+                    />
+                  </div>
+
+                  <div class="flex items-center gap-4 mt-3">
+                    <div>
+                      <label class="block text-xs text-gray-600 mb-1">Correct Answer</label>
+                      <select
+                        formControlName="correctop"
+                        class="px-3 py-2 border rounded-md text-sm"
+                      >
+                        <option>A</option>
+                        <option>B</option>
+                        <option>C</option>
+                        <option>D</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              }
+              <div class="flex items-center gap-3">
+                <button
+                  [disabled]="quizFrom.invalid"
+                  class="px-4 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed py-2 bg-primary text-white rounded-lg shadow text-sm"
+                >
+                  Publish Quiz
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

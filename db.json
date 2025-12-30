@@ -1,0 +1,395 @@
+{
+  "users": [
+    {
+      "id": "2a5e",
+      "email": "admin@ex.com",
+      "password": "admin123",
+      "role": "admin",
+      "status": ""
+    },
+    {
+      "id": "1a39",
+      "email": "jawad@ex.com",
+      "password": "123",
+      "role": "student",
+      "status": ""
+    },
+    {
+      "id": "cd7d",
+      "email": "ali@ex.com",
+      "password": "123",
+      "role": "student",
+      "status": ""
+    },
+    {
+      "id": "9618",
+      "email": "raza@ex.com",
+      "password": "123",
+      "role": "student"
+    },
+    {
+      "id": "e2d5",
+      "email": "haziq@ex.com",
+      "password": "123",
+      "role": "teacher"
+    }
+  ],
+  "auth": {
+    "loggedIn": true,
+    "id": "cd7d",
+    "role": "student",
+    "status": "approved",
+    "email": "ali@ex.com"
+  },
+  "notices": [
+    {
+      "id": "a084",
+      "title": "zxc",
+      "message": "cxz",
+      "date": 1765993316681
+    }
+  ],
+  "apply": [
+    {
+      "id": "5c7e",
+      "fullName": "jawad ahmad",
+      "email": "example@ex.com",
+      "phone": "12312312312",
+      "program": "BS Computer Science",
+      "session": "Spring 2026",
+      "message": "",
+      "semester": 1,
+      "status": "approved"
+    },
+    {
+      "id": "465f",
+      "fullName": "ali raza",
+      "email": "ali@ex.com",
+      "phone": "12312332111",
+      "program": "BS Software Engineering",
+      "session": "Spring 2025",
+      "semester": 1,
+      "message": "",
+      "status": "approved"
+    },
+    {
+      "id": "0554",
+      "fullName": "jawad",
+      "email": "qwert@ex.com",
+      "phone": "123321123321",
+      "program": "BS Computer Science",
+      "session": "Spring 2026",
+      "message": "",
+      "semester": 1,
+      "status": "approved",
+      "section": ""
+    }
+  ],
+  "courses": [
+    {
+      "id": "bs-31",
+      "courseCode": "bs-31",
+      "title": "BSSE",
+      "duration": "4 years",
+      "credits": 103,
+      "status": "active"
+    },
+    {
+      "id": "cs-11",
+      "courseCode": "cs-11",
+      "title": "BSCS",
+      "duration": "4 years",
+      "credits": 111,
+      "status": "active"
+    }
+  ],
+  "faculty": [
+    {
+      "name": "ahmad raza",
+      "email": "ahmad@ex.com",
+      "phone": 5555555555,
+      "department": "Software Engineering",
+      "designation": "Professor",
+      "empType": "Full Time",
+      "status": "Active",
+      "id": "c843"
+    },
+    {
+      "id": "fcd1",
+      "name": "raza",
+      "email": "raza@ex.com",
+      "phone": "123123123",
+      "department": "Computer Science",
+      "designation": "Professor",
+      "empType": "Visiting",
+      "status": "Active"
+    },
+    {
+      "name": "haziq",
+      "email": "haziq@ex.com",
+      "phone": 2323211,
+      "department": "Computer Science",
+      "designation": "Lecturer",
+      "empType": "Full Time",
+      "status": "Active",
+      "id": "da1b"
+    }
+  ],
+  "timeTable": [
+    {
+      "id": "2fef",
+      "instructor": "ali",
+      "days": [
+        {
+          "id": "1766058281594",
+          "day": "Tuesday",
+          "time": "08:00 - 09:00",
+          "room": "21",
+          "course": "OOP",
+          "semester": 2,
+          "section": "A",
+          "class": "BSSE",
+          "action": "Lecture"
+        }
+      ]
+    },
+    {
+      "id": "7f3f",
+      "instructor": "ali",
+      "days": [
+        {
+          "id": "1766058435023",
+          "day": "Monday",
+          "time": "08:00 - 09:00",
+          "room": "23",
+          "course": "oop",
+          "semester": 3,
+          "section": "a",
+          "class": "cs",
+          "action": "Lecture"
+        },
+        {
+          "id": "1766058515134",
+          "day": "Tuesday",
+          "time": "09:00 - 10:00",
+          "room": "33",
+          "course": "pf",
+          "semester": 3,
+          "section": "b",
+          "class": "se",
+          "action": "Lecture"
+        },
+        {
+          "id": "1766058541860",
+          "day": "Thursday",
+          "time": "08:00 - 09:00",
+          "room": "4",
+          "course": "DBMS",
+          "semester": 5,
+          "section": "a",
+          "class": "cs",
+          "action": "Lecture"
+        }
+      ]
+    }
+  ],
+  "fees": [
+    {
+      "id": "d5d5",
+      "program": "BSSE",
+      "semester": "5",
+      "section": "A",
+      "date": "2025-12-25",
+      "title": "Tuition fee",
+      "amount": 50000,
+      "student": "5c7e",
+      "message": ""
+    },
+    {
+      "id": "1925",
+      "program": "BSCS",
+      "semester": "3",
+      "section": "B",
+      "date": "2025-12-25",
+      "title": "Tuition fee",
+      "amount": 70000,
+      "student": "465f",
+      "message": ""
+    },
+    {
+      "id": "0683",
+      "program": "bsse",
+      "semester": "2",
+      "section": "A",
+      "date": "2025-12-25",
+      "title": "OverAll",
+      "amount": 90000,
+      "student": "465f",
+      "message": ""
+    }
+  ],
+  "quiz": [
+    {
+      "id": "755e",
+      "quizTitle": "jhgad",
+      "course": "oop",
+      "section": "A",
+      "semester": "3",
+      "totMarks": 10,
+      "timeLimit": 2,
+      "dueDate": "2025-12-20T19:00",
+      "questions": [
+        {
+          "question": "gvadx",
+          "A": "op1",
+          "B": "op2",
+          "C": "op3",
+          "D": "op4",
+          "correctop": "B"
+        },
+        {
+          "question": "mhsab",
+          "A": "op1",
+          "B": "op2",
+          "C": "op3",
+          "D": "op4",
+          "correctop": "D"
+        }
+      ]
+    }
+  ],
+  "approvedStuds": [
+    {
+      "id": "5c7e",
+      "fullName": "jawad ahmad",
+      "email": "example@ex.com",
+      "phone": "12312312312",
+      "program": "BSSE",
+      "session": "Spring 2026",
+      "message": "",
+      "semester": 7,
+      "status": "approved",
+      "section": "B"
+    },
+    {
+      "id": "465f",
+      "fullName": "ali raza",
+      "email": "ali@ex.com",
+      "phone": "12312332111",
+      "program": "BSSE",
+      "session": "Spring 2025",
+      "semester": 7,
+      "message": "",
+      "status": "approved",
+      "section": "B"
+    },
+    {
+      "id": "0554",
+      "fullName": "jawad",
+      "email": "qwert@ex.com",
+      "phone": "123321123321",
+      "program": "BSCS",
+      "session": "Spring 2026",
+      "message": "",
+      "semester": 4,
+      "status": "approved",
+      "section": "B"
+    }
+  ],
+  "quizResults": [
+    {
+      "id": "465f",
+      "subject": "jhgad",
+      "totalMarks": 10,
+      "name": "ali raza",
+      "score": 0,
+      "attempt": true
+    }
+  ],
+  "attendance": [
+    {
+      "id": "78c0",
+      "subject": "oop",
+      "program": "BSCS",
+      "section": "B",
+      "semester": "4",
+      "date": "12/24/2025",
+      "attendance": [
+        {
+          "studentId": "465f",
+          "fullName": "ali raza",
+          "status": "present"
+        },
+        {
+          "studentId": "0554",
+          "fullName": "jawad",
+          "status": "present"
+        }
+      ]
+    },
+    {
+      "id": "780c",
+      "subject": "oop",
+      "program": "BSCS",
+      "section": "B",
+      "semester": "4",
+      "date": "12/27/2025",
+      "attendance": [
+        {
+          "studentId": "465f",
+          "fullName": "ali raza",
+          "status": "present"
+        },
+        {
+          "studentId": "0554",
+          "fullName": "jawad",
+          "status": "present"
+        }
+      ]
+    },
+    {
+      "id": "9620",
+      "subject": "DBMS",
+      "program": "BSSE",
+      "section": "B",
+      "semester": "7",
+      "date": "12/29/2025",
+      "attendance": [
+        {
+          "studentId": "5c7e",
+          "fullName": "jawad ahmad",
+          "status": "absent"
+        },
+        {
+          "studentId": "465f",
+          "fullName": "ali raza",
+          "status": "absent"
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "556f",
+      "title": "Sports Day",
+      "speguest": "Ali Raza",
+      "venue": "Ground",
+      "date": "2026-01-03",
+      "time": "15:00",
+      "class": "Computing",
+      "description": ""
+    }
+  ],
+  "teacherApplications": [
+    {
+      "id": "da1b",
+      "status": "pending",
+      "applicationDate": "2025-12-30T11:39:27.848Z",
+      "name": "Ali Raza",
+      "dept": "Computing",
+      "date": "2026-01-07",
+      "title": "Leave",
+      "details": "kada"
+    }
+  ]
+}

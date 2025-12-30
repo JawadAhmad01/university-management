@@ -1,0 +1,432 @@
+<!-- Timetable Component (UI-only) -->
+<div
+  class="min-h-screen bg-gray-50 text-gray-800 flex absolute top-0 right-0 lg:w-sereen"
+  style="width: 75vw"
+>
+  <main class="flex-1 overflow-y-auto p-6 md:p-8">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+        <div>
+          <h2 class="text-3xl font-serif font-bold text-primary">Lecture Timetable</h2>
+          <div class="text-sm text-gray-500 mt-1">Weekly schedule • Manage periods & rooms</div>
+        </div>
+        <div class="flex items-center gap-3">
+          <input
+            style="width: 400px"
+            type="text"
+            [(ngModel)]="searchVal"
+            (input)="search()"
+            placeholder="Search Timetable..."
+            class="px-4 py-2 outline-none border rounded-lg w-64"
+          />
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button
+            (click)="toggleform()"
+            class="px-4 py-2 cursor-pointer bg-primary text-white rounded-lg text-sm shadow"
+          >
+            New timetable
+          </button>
+        </div>
+      </div>
+
+      @if(errorMsg){
+      <div
+        style="width: 100%; height: 100%"
+        class="flex font-medium text-2xl text-red-400 justify-center items-center"
+      >
+        Nothing to show
+      </div>
+      } @if(showHideFormBtn === false){
+
+      <div class="grid grid-cols-2">
+        <div class="lg:col-span-2">
+          @for (t of timetableArr; track $index) {
+          <div class="card overflow-x-auto all p-4 my-3">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-lg text-primary">Weekly Schedule</h3>
+            </div>
+
+            <div class="max-w-4xl mx-auto p-6 mb-8">
+              <h2 class="text-2xl font-semibold mb-4">Teacher Timetable</h2>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6 bg-gray-50 p-4 rounded">
+                <div><span class="font-medium">Teacher ID:</span> {{ t.id }}</div>
+                <div>
+                  <span class="font-medium">Instructor:</span>
+                  <span class="name">{{ t.instructor }} </span>
+                </div>
+              </div>
+
+              @for (day of ['Monday','Tuesday','Wednesday','Thursday','Friday']; track day) {
+
+              <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-2">{{ day }}</h3>
+
+                @if (getLecturesByDay(t.days, day).length > 0) { @for (lec of
+                getLecturesByDay(t.days, day); track $index) {
+
+                <div class="border rounded p-4 mb-2 flex justify-between items-center">
+                  <div>
+                    <div class="font-medium">{{ lec.time }}</div>
+                    <div class="text-sm text-gray-600">
+                      Course: {{ t.course }} | Room: {{ lec.room }}
+                    </div>
+                  </div>
+
+                  <div class="flex gap-2">
+                    <button
+                      (click)="dellec(lec.id, t.id)"
+                      class="px-3 py-1 rounded bg-red-100 text-red-700"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+
+                } } @else {
+                <p class="text-sm text-gray-500">No lectures</p>
+                }
+              </div>
+
+              }
+              <button (click)="edit(t)" class="px-3 py-1 rounded bg-blue-100 text-blue-700">
+                Edit</button
+              >&nbsp;
+              <button (click)="del(t.id)" class="px-3 py-1 rounded bg-red-100 text-red-700">
+                Delete
+              </button>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      }
+    </div>
+
+    @if(showHideFormBtn){ @if(editopen){
+
+    <div class="card right-25" style="width: 70vw">
+      <h4 class="font-bold text-lg text-primary mb-3">Add New TimeTable</h4>
+
+      <form class="space-y-4" [formGroup]="newtimeTableForm" (ngSubmit)="newFormSubmit()">
+        <!-- Instructor -->
+        <div>
+          <label class="block text-xs font-medium text-gray-600 mb-1">Instructor</label>
+          <input
+            formControlName="instructor"
+            type="text"
+            placeholder="Instructor name"
+            class="w-full px-3 py-2 border rounded-md text-sm"
+          />
+        </div>
+
+        <!-- Days FormArray -->
+        <div formArrayName="days" class="space-y-3">
+          @for (dayCtrl of days.controls; track $index) {
+          <div class="bg-gray-50 border rounded-md p-3 space-y-2" [formGroupName]="$index">
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Day</label>
+                <select formControlName="day" class="w-full px-2 py-2 border rounded-md text-sm">
+                  <option value="Monday">Mon</option>
+                  <option value="Tuesday">Tue</option>
+                  <option value="Wednesday">Wed</option>
+                  <option value="Thursday">Thu</option>
+                  <option value="Friday">Fri</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Time</label>
+                <select formControlName="time" class="w-full px-2 py-2 border rounded-md text-sm">
+                  <option>Select</option>
+                  <option>08:00 - 09:00</option>
+                  <option>09:00 - 10:00</option>
+                  <option>10:30 - 11:00</option>
+                  <option>11:30 - 12:00</option>
+                  <option>14:00 - 15:30</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Semester</label>
+                <input
+                  type="number"
+                  formControlName="semester"
+                  placeholder="Sem"
+                  class="w-full px-2 py-2 border rounded-md text-sm"
+                />
+              </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Course</label>
+                <input
+                  type="text"
+                  formControlName="course"
+                  placeholder="Course"
+                  class="w-full px-2 py-2 border rounded-md text-sm"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Action</label>
+                <select formControlName="action" class="w-full px-2 py-2 border rounded-md text-sm">
+                  <option>Lecture</option>
+                  <option>Lab</option>
+                  <option>Replacement</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Room</label>
+                <input
+                  type="text"
+                  formControlName="room"
+                  placeholder="Room"
+                  class="w-full px-2 py-2 border rounded-md text-sm"
+                />
+              </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="grid grid-cols-3 gap-2 items-end">
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Class</label>
+                <input
+                  type="text"
+                  formControlName="class"
+                  placeholder="Class"
+                  class="w-full px-2 py-2 border rounded-md text-sm"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Section</label>
+                <input
+                  type="text"
+                  formControlName="section"
+                  placeholder="Section"
+                  class="w-full px-2 py-2 border rounded-md text-sm"
+                />
+              </div>
+
+              <div class="text-right">
+                <button
+                  type="button"
+                  (click)="deleteDayData($index)"
+                  class="px-3 py-2 rounded-md bg-red-50 text-red-700 border text-sm"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-between pt-2">
+          <div class="flex gap-2">
+            <button
+              type="submit"
+              [disabled]="newtimeTableForm.invalid"
+              class="px-4 py-2 rounded-md bg-primary text-white text-sm disabled:opacity-60"
+            >
+              Save
+            </button>
+
+            <button type="reset" class="px-4 py-2 rounded-md border text-sm">Reset</button>
+
+            <button
+              type="button"
+              (click)="addewDayData()"
+              class="px-3 py-2 rounded-md bg-green-50 text-green-700 border text-sm"
+            >
+              + Day
+            </button>
+          </div>
+
+          <button
+            type="button"
+            (click)="toggleEditForm()"
+            class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 border text-sm"
+          >
+            Hide
+          </button>
+        </div>
+      </form>
+    </div>
+    }@else {
+
+    <div class="card absolute top-25 right-25" style="width: 70vw">
+      <h4 class="font-bold text-lg text-primary mb-3">Edit TimeTable</h4>
+
+      <form class="space-y-4" [formGroup]="editform" (ngSubmit)="editsubmit()">
+        Instructor
+        <div>
+          <label class="block text-xs font-medium text-gray-600 mb-1">Instructor</label>
+          <input
+            formControlName="instructor1"
+            type="text"
+            placeholder="Instructor name"
+            class="w-full px-2 py-2 border rounded-md text-sm"
+          />
+        </div>
+
+        <div formArrayName="days" class="space-y-3">
+          @for (item of editDays.controls; track $index) {
+          <div [formGroupName]="$index" class="bg-gray-50 border rounded-md p-3 space-y-2">
+            Row 1: Day | Time
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Day</label>
+                <select formControlName="day1" class="w-full px-2 py-2 border rounded-md text-sm">
+                  <option value="">Select</option>
+                  <option value="Monday">Mon</option>
+                  <option value="Tuesday">Tue</option>
+                  <option value="Wednesday">Wed</option>
+                  <option value="Thursday">Thu</option>
+                  <option value="Friday">Fri</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Time</label>
+                <select formControlName="time1" class="w-full px-2 py-2 border rounded-md text-sm">
+                  <option>Select</option>
+                  <option>08:00 - 09:00</option>
+                  <option>09:00 - 10:00</option>
+                  <option>10:30 - 11:00</option>
+                  <option>11:30 - 12:00</option>
+                  <option>Break</option>
+                  <option>14:00 - 15:30</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Row 2: Course | Semester -->
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Course</label>
+                <input
+                  type="text"
+                  formControlName="course1"
+                  placeholder="Course title"
+                  class="w-full px-2 py-2 border rounded-md text-sm"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Semester</label>
+                <input
+                  type="number"
+                  formControlName="semester1"
+                  placeholder="Sem"
+                  class="w-full px-2 py-2 border rounded-md text-sm"
+                />
+              </div>
+            </div>
+
+            <!-- Row 3: Action | Room -->
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Action</label>
+                <select
+                  formControlName="action1"
+                  class="w-full px-2 py-2 border rounded-md text-sm"
+                >
+                  <option>Lecture</option>
+                  <option>Lab</option>
+                  <option>Replacement</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Room</label>
+                <input
+                  type="text"
+                  formControlName="room1"
+                  placeholder="Room"
+                  class="w-full px-2 py-2 border rounded-md text-sm"
+                />
+              </div>
+            </div>
+
+            <!-- Row 4: Class | Section | Delete -->
+            <div class="grid grid-cols-3 gap-2 items-end">
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Class</label>
+                <input
+                  type="text"
+                  formControlName="class1"
+                  placeholder="Class"
+                  class="w-full px-2 py-2 border rounded-md text-sm"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs text-gray-600 mb-1">Section</label>
+                <input
+                  type="text"
+                  formControlName="section1"
+                  placeholder="Section"
+                  class="w-full px-2 py-2 border rounded-md text-sm"
+                />
+              </div>
+
+              <div class="text-right">
+                <button
+                  type="button"
+                  (click)="deleteDayDataedit($index)"
+                  class="inline-flex items-center px-3 py-2 rounded-md bg-red-50 text-red-700 border text-sm"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-between pt-2">
+          <div class="flex gap-2">
+            <button
+              type="submit"
+              [disabled]="editform.invalid"
+              class="px-4 py-2 rounded-md bg-primary text-white text-sm disabled:opacity-60"
+            >
+              Save
+            </button>
+
+            <button type="reset" class="px-4 py-2 rounded-md border text-sm">Reset</button>
+
+            <button
+              type="button"
+              (click)="addewDayDataedit()"
+              class="px-3 py-2 rounded-md bg-green-50 text-green-700 border text-sm"
+            >
+              + Day
+            </button>
+          </div>
+
+          <button
+            type="button"
+            (click)="toggleEditForm()"
+            class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 border text-sm"
+          >
+            Hide
+          </button>
+        </div>
+      </form>
+    </div>
+
+    } }
+  </main>
+</div>

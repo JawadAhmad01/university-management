@@ -1,0 +1,11 @@
+.outlineNONE input {
+  outline: none;
+}
+
+.outlineNONE ::placeholder {
+  color: gray;
+}
+
+.outlineNONE textarea {
+  outline: none;
+}

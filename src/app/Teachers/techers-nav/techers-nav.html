@@ -1,0 +1,67 @@
+<div style="height: 100vh" class="flex bg-gray-50 text-gray-800 font-sans">
+  <aside
+    [class.translate-x-0]="isAsideOpen"
+    [class.-translate-x-full]="!isAsideOpen"
+    class="bg-zinc-300 border-r border-gray-200 w-64 fixed top-0 left-0 z-40 h-full transform transition-transform duration-300 -translate-x-full lg:translate-x-0 lg:static"
+  >
+    <div class="px-6 py-5 border-b border-gray-100 mt-14 lg:mt-0">
+      <div class="flex items-center gap-2">
+        <div
+          class="bg-blue-600 text-white rounded-lg w-8 h-8 flex items-center justify-center font-bold text-sm"
+        >
+          T
+        </div>
+        <h1 class="text-lg font-bold text-gray-900 tracking-tight">Teachers Dashboard</h1>
+      </div>
+    </div>
+
+    <nav class="p-4 space-y-1">
+      <a
+        routerLink="/teachers"
+        routerLinkActive="bg-white text-blue-700 border-r-4 border-blue-600"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+      >
+        Quiz
+      </a>
+
+      <a
+        routerLink="/teachers/attendence"
+        routerLinkActive="bg-white text-blue-700 border-r-4 border-blue-600"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+      >
+        Attendance
+      </a>
+
+      <a
+        routerLink="/teachers/application"
+        routerLinkActive="bg-white text-blue-700 border-r-4 border-blue-600"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+      >
+        Application
+      </a>
+
+      <a
+        (click)="logOutService.logout()"
+        routerLinkActive=" text-red-600 border-r-4 "
+        class="flex bg-red-400 items-center cursor-pointer font-bold gap-3 px-4 py-3 rounded-lg hover:bg-red-500 transition-colors"
+      >
+        LogOut
+      </a>
+    </nav>
+  </aside>
+
+  <div class="flex-1 flex flex-col">
+    <header class="lg:hidden fixed top-0 left-0 z-50">
+      <button (click)="toggleAside()" class="p-2">☰</button>
+    </header>
+
+    @if (isAsideOpen) {
+    <div class="fixed inset-0 bg-black/40 z-30 lg:hidden" (click)="toggleAside()"></div>
+    }
+
+    <main class="flex-1 pt-14 lg:pt-0 lg:ml-64 p-4">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

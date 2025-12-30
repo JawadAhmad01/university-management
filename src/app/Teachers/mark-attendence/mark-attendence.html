@@ -1,0 +1,191 @@
+<div
+  class="min-h-screen sm-w-full bg-gray-50 text-gray-800 flex absolute top-0 right-0"
+  style="width: 75vw"
+>
+  <main class="flex-1 overflow-y-auto p-6 md:p-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-6">
+        <div>
+          <h2 class="text-3xl font-serif font-bold text-primary">Mark Attendance</h2>
+          <div class="text-sm text-gray-500 mt-1">
+            Course: Data Structures • Section: {{ sectionVal }} • Fall 2025
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="card p-4 flex items-center gap-4 border-l-4 border-blue-500">
+          <div class="p-3 rounded-full bg-blue-100 text-blue-600">👥</div>
+          <div>
+            <div class="text-sm text-gray-500">Total Students</div>
+            <div class="text-2xl font-bold">{{ approvedStuds.length }}</div>
+          </div>
+        </div>
+
+        <div class="card p-4 flex items-center gap-4 border-l-4 border-green-500">
+          <div class="p-3 rounded-full bg-green-100 text-green-600">✔️</div>
+          <div>
+            <div class="text-sm text-gray-500">Present</div>
+            <div class="text-2xl font-bold text-green-700">{{ presentCount }}</div>
+          </div>
+        </div>
+
+        <div class="card p-4 flex items-center gap-4 border-l-4 border-red-500">
+          <div class="p-3 rounded-full bg-red-100 text-red-600">❌</div>
+          <div>
+            <div class="text-sm text-gray-500">Absent</div>
+            <div class="text-2xl font-bold text-red-700">{{ absentCount }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+        <div class="flex items-center gap-2">
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            placeholder="Search by name or roll..."
+            class="px-3 outline-none py-2 border rounded-lg w-64 text-sm"
+          />
+        </div>
+
+        <div class="flex px-5 items-center gap-2">
+          <label>
+            Program:
+            <select
+              (change)="getStudents()"
+              [(ngModel)]="programVal"
+              class="px-4 py-1 bg-zinc-200 outline-none cursor-pointer"
+            >
+              @for (item of programs; track $index) {
+              <option>{{ item.title.toUpperCase() }}</option>
+              }
+            </select>
+          </label>
+          <label>
+            Section:
+            <select
+              (change)="getStudents()"
+              [(ngModel)]="sectionVal"
+              class="px-4 py-1 bg-zinc-200 outline-none cursor-pointer"
+            >
+              @for (item of sectionArr; track $index) {
+              <option>{{ item }}</option>
+              }
+            </select>
+          </label>
+          <label>
+            Semester:
+            <select
+              (change)="getStudents()"
+              [(ngModel)]="semVal"
+              class="px-4 py-1 bg-blue-100 outline-none cursor-pointer"
+            >
+              @for (item of semArr; track $index) {
+              <option [value]="item">{{ item }}</option>
+              }
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <!-- Attendance Form -->
+      <form [formGroup]="attendanceFrom" (ngSubmit)="submitAttendance()">
+        <div class="card overflow-x-auto">
+          <!-- Subject Input -->
+          <div class="p-4 border-b">
+            <label class="block text-sm font-medium mb-2">Subject Name</label>
+            <input
+              placeholder="Enter Subject"
+              type="text"
+              formControlName="subject"
+              class="bg-zinc-200 placeholder:text-gray-500 rounded py-2 px-3 outline-none w-full md:w-96"
+            />
+            @if (attendanceFrom.get('subject')?.invalid && attendanceFrom.get('subject')?.touched) {
+            <div class="text-red-500 text-xs mt-1">Subject is required</div>
+            }
+          </div>
+
+          <!-- Attendance Table -->
+          <table class="w-full text-sm text-left">
+            <thead class="text-xs text-gray-500 uppercase bg-gray-50">
+              <tr>
+                <th class="px-4 py-3 rounded-l-lg">Roll</th>
+                <th class="px-4 py-3">Name</th>
+                <th class="px-4 py-3">Session</th>
+                <th class="px-4 py-3">Status</th>
+              </tr>
+            </thead>
+
+            <tbody formArrayName="attendance" class="divide-y divide-gray-100">
+              @if (filteredStudents.length === 0) {
+              <tr>
+                <td colspan="4" class="px-4 py-8 text-center text-gray-500">
+                  No students found for the selected criteria
+                </td>
+              </tr>
+              } @for (student of filteredStudents; track student.id; let i = $index) { @if
+              (attendance.at(i)) {
+              <tr [formGroupName]="i" class="transition-colors hover:bg-gray-50">
+                <td class="px-4 py-3 font-medium">{{ student.id }}</td>
+                <td class="px-4 py-3">{{ student.fullName }}</td>
+                <td class="px-4 py-3">{{ student.session }}</td>
+                <td class="px-4 py-3">
+                  <div class="flex items-center gap-4">
+                    <label class="inline-flex items-center cursor-pointer gap-2">
+                      <input
+                        type="radio"
+                        formControlName="status"
+                        value="present"
+                        class="text-green-600 focus:ring-green-500"
+                      />
+                      <span class="text-xs text-green-700 font-medium">Present</span>
+                    </label>
+
+                    <label class="inline-flex items-center cursor-pointer gap-2">
+                      <input
+                        type="radio"
+                        formControlName="status"
+                        value="absent"
+                        class="text-red-600 focus:ring-red-500"
+                      />
+                      <span class="text-xs text-red-700 font-medium">Absent</span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              } }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="flex items-center justify-between mt-4 flex-wrap gap-3">
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              (click)="markAllPresent()"
+              class="px-4 py-2 bg-green-600 text-white rounded text-sm hover:bg-green-700 transition"
+            >
+              Mark All Present
+            </button>
+            <button
+              type="button"
+              (click)="markAllAbsent()"
+              class="px-4 py-2 bg-red-600 text-white rounded text-sm hover:bg-red-700 transition"
+            >
+              Mark All Absent
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            [disabled]="attendanceFrom.invalid"
+            class="px-6 py-2 bg-primary text-white rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 transition"
+          >
+            Finalize & Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,95 @@
+<div
+  style="position: absolute; top: 0; right: 0; width: 80vw"
+  class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6"
+>
+  <div
+    class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 p-4 bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-200/50"
+  >
+    <input
+      type="text"
+      placeholder="Search by class or section..."
+      [(ngModel)]="searchQuery"
+      class="px-4 py-3 border border-gray-300 rounded-xl bg-white/90 text-sm flex-1 shadow-sm hover:shadow transition-shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+    />
+
+    <select
+      [(ngModel)]="selectedMainClass"
+      class="px-4 py-3 border border-gray-300 rounded-xl bg-white/90 text-sm shadow-sm hover:shadow transition-shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+    >
+      @for (cls of mainClasses; track cls) {
+      <option>{{ cls }}</option>
+      }
+    </select>
+  </div>
+
+  @for (cs of filterClassSections(); track cs) {
+
+  <h2 class="text-2xl font-bold text-gray-800 mt-10 mb-5 pl-2 border-l-4 border-blue-500">
+    {{ cs.class }} - {{ cs.section }}
+  </h2>
+
+  <div
+    class="overflow-x-auto shadow-2xl rounded-2xl bg-white mb-10 border border-gray-200/50 hover:shadow-2xl transition-shadow duration-300"
+  >
+    <table class="w-full border-collapse text-sm text-center">
+      <thead class="bg-gradient-to-r from-blue-600 to-blue-700 text-white sticky top-0">
+        <tr>
+          <th class="border border-blue-500/30 px-6 py-4 text-left font-semibold text-white/90">
+            Time
+          </th>
+          @for (day of days; track day) {
+          <th class="border border-blue-500/30 px-6 py-4 font-semibold text-white/90">{{ day }}</th>
+          }
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-100/50">
+        @for (time of timeSlots; track time; let even = $even) {
+        <tr class="transition-colors duration-200 hover:bg-blue-50/50">
+          <td
+            class="border border-gray-200 px-6 py-4 font-semibold text-gray-700 bg-gray-100/80 text-left sticky left-0"
+          >
+            {{ time }}
+          </td>
+
+          @for (day of days; track day) { @if (getCell(cs, day, time)) {
+          <td
+            class="border border-gray-200 px-4 py-4 bg-gradient-to-br from-green-50/80 to-emerald-50/80 hover:from-green-100/80 hover:to-emerald-100/80 transition-all duration-200 group"
+          >
+            <div class="font-semibold text-gray-800 group-hover:text-gray-900">
+              {{ getCell(cs, day, time)?.course }}
+            </div>
+            <div class="text-xs text-gray-600 mt-1 group-hover:text-gray-700">
+              {{ getCell(cs, day, time)?.instructor }}
+            </div>
+            <div class="text-xs text-gray-500 mt-1 font-medium">
+              Room: {{ getCell(cs, day, time)?.room }}
+            </div>
+            <div class="text-xs text-gray-500 mt-1 font-medium">
+              Section:{{ getCell(cs, day, time)?.section }}
+            </div>
+          </td>
+          } @else {
+          <td
+            class="border border-gray-200 px-4 py-4 text-gray-300/50 bg-white/50 hover:bg-gray-50/50 transition-colors"
+          >
+            <span class="text-lg font-light">—</span>
+          </td>
+          } }
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  } @if (filterClassSections().length === 0) {
+  <div class="text-center text-gray-400 mt-24 text-lg">
+    <div
+      class="inline-block p-8 bg-white/50 rounded-2xl backdrop-blur-sm border border-gray-200/30"
+    >
+      <div class="text-4xl mb-3">📅</div>
+      <div class="font-medium text-gray-500">No timetable available</div>
+      <div class="text-sm text-gray-400 mt-2">Try adjusting your search filters</div>
+    </div>
+  </div>
+  }
+</div>

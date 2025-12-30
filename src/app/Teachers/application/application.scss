@@ -1,0 +1,9 @@
+form input,
+textarea {
+  outline: none;
+}
+
+form input::placeholder,
+textarea::placeholder {
+  color: gray;
+}

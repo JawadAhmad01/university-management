@@ -1,0 +1,10 @@
+input {
+  outline: none;
+}
+select {
+  outline: none;
+}
+input::placeholder,
+textarea::placeholder {
+  color: gray;
+}

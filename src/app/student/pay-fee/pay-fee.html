@@ -1,0 +1,95 @@
+<div
+  class="min-h-screen sm-w-full bg-gray-50 text-gray-800 flex absolute right-0"
+  style="width: 80vw"
+>
+  <main class="flex-1 overflow-y-auto p-6 md:p-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+        <div>
+          <h2 class="text-3xl font-serif font-bold text-primary">Fee Overview</h2>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="hidden md:flex items-center gap-3 text-sm"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="card flex items-center p-6 border-l-4 border-blue-500">
+          <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">💸</div>
+          <div>
+            <div class="text-lg text-gray-600 font-bold">
+              Total Fee: @if(voucherObj.amount){
+              <span> {{ voucherObj.amount }} pkr</span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-white border border-gray-200 rounded-xl p-6 max-w-4xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+          <div>
+            <h3 class="text-lg font-semibold text-gray-900">Fee Challan</h3>
+            <p class="text-xs text-gray-500">Official Fee Voucher</p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3">
+            <input
+              type="text"
+              [(ngModel)]="searchVal"
+              (input)="getVoucher()"
+              class="bg-zinc-200 rounded outline-none px-2 py-1"
+              placeholder="Enter your id"
+            />
+          </div>
+        </div>
+
+        @if(voucherToggle){
+
+        <div class="border border-gray-300 rounded-lg">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 p-5 text-sm">
+            <div>
+              <p class="text-gray-500 uppercase text-[11px] tracking-wide">Program</p>
+              <p class="font-medium text-gray-900">{{ voucherObj.program }}</p>
+            </div>
+
+            <div>
+              <p class="text-gray-500 uppercase text-[11px] tracking-wide">Semester</p>
+              <p class="font-medium text-gray-900">{{ voucherObj.semester }}</p>
+            </div>
+
+            <div>
+              <p class="text-gray-500 uppercase text-[11px] tracking-wide">Section</p>
+              <p class="font-medium text-gray-900">{{ voucherObj.section }}</p>
+            </div>
+
+            <div>
+              <p class="text-gray-500 uppercase text-[11px] tracking-wide">Title</p>
+              <p class="font-medium text-gray-900">{{ voucherObj.title }}</p>
+            </div>
+          </div>
+
+          <div class="border-t border-dashed border-gray-300"></div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 p-5 text-sm">
+            <div>
+              <p class="text-gray-500 uppercase text-[11px] tracking-wide">Amount</p>
+              <p class="text-xl font-semibold text-gray-900">{{ voucherObj.amount }} PKR</p>
+            </div>
+
+            <div>
+              <p class="text-gray-500 uppercase text-[11px] tracking-wide">Due-Date</p>
+              <p class="font-medium text-gray-900">
+                {{ voucherObj.date }}
+              </p>
+            </div>
+          </div>
+        </div>
+        } @else {
+        <div>No resuts related to search query</div>
+        }
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,169 @@
+<div
+  class="min-h-screen bg-gray-50 text-gray-800 flex items-start justify-center absolute right-0"
+  style="width: 80vw"
+>
+  <main class="w-full max-w-4xl mt-10 px-4">
+    @if(showQuiz === false){
+    <div class="card w-full max-w-4xl mt-10 px-4 my-5">
+      @if(allQuizResults ){ @for (item of allQuizResults; track $index) {
+      <div>
+        <span class="mx-3">Course:{{ item.subject }} </span>
+        <span class="mx-3">Total Marks:{{ item.totalMarks }} </span>
+        <span class="mx-3">Obtained Marks:{{ item.score }} </span>
+      </div>
+      } } @if(allQuizResults.length === 0){
+      <div class="text-re">No results Available</div>
+      }
+    </div>
+    }
+    <section class="bg-white border rounded-2xl shadow-sm p-6 space-y-6">
+      <header class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-serif font-bold text-primary">Quizzes</h1>
+          <p class="text-sm text-gray-500 mt-1">
+            Select semester & section to view available quizzes
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <label class="text-sm text-gray-600">Semester</label>
+          <select
+            class="px-3 py-2 cursor-pointer border rounded-lg text-sm bg-white min-w-[120px]"
+            [(ngModel)]="selectedSemester"
+            (change)="loadQuizzes()"
+          >
+            @for (sem of semesters; track $index) {
+            <option [value]="sem">{{ sem }}</option>
+            }
+          </select>
+          <label class="text-sm text-gray-600">Section</label>
+
+          <select
+            class="px-3 py-2 border cursor-pointer rounded-lg text-sm bg-white min-w-[100px]"
+            [(ngModel)]="selectedSection"
+            (change)="loadQuizzes()"
+          >
+            @for (sec of sections; track $index) {
+            <option [value]="sec">{{ sec }}</option>
+            }
+          </select>
+        </div>
+      </header>
+
+      @if (showQuiz === false) {
+      <div class="space-y-3">
+        <h2 class="text-lg font-semibold text-gray-800">Available Quizzes</h2>
+        @if (quizArr.length === 0) {
+        <p class="text-gray-500 py-4 text-center">No quizzes available for this selection</p>
+        } @for (quiz of quizArr; track $index) {
+        <article
+          class="border rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3"
+        >
+          <div class="space-y-1">
+            <div class="text-sm text-gray-600">Title</div>
+            <div class="font-medium text-gray-900">{{ quiz.quizTitle }}</div>
+            <div class="mt-2 text-sm text-gray-600 flex flex-wrap gap-4">
+              <div>
+                Semester: <span class="font-semibold">{{ quiz.semester }}</span>
+              </div>
+              <div>
+                Program: <span class="font-semibold">{{ quiz.program }}</span>
+              </div>
+              <div>
+                Due: <span class="font-semibold">{{ quiz.dueDate | date }}</span>
+              </div>
+              <div>
+                Marks: <span class="font-semibold">{{ quiz.totMarks }}</span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            class="px-4 py-2 bg-green-600 cursor-pointer text-white rounded text-sm shadow hover:bg-green-700 w-full md:w-auto"
+            (click)="selectQuiz(quiz)"
+          >
+            Attempt
+          </button>
+        </article>
+        }
+      </div>
+      } @if(selectedQuiz){
+      <div class="space-y-4">
+        <div class="border rounded-lg p-4 bg-gray-50">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div class="space-y-1">
+              <div class="text-sm text-gray-600">Quiz</div>
+              <div>Timer: <span class="text-red-500 font-medium" id="time"></span></div>
+              <div class="text-lg font-semibold">{{ selectedQuiz.quizTitle }}</div>
+              <div class="text-xs text-gray-500">
+                Class: <strong>{{ selectedQuiz.program }}</strong> • Semester:
+                <strong>{{ selectedQuiz.semester }}</strong>
+              </div>
+            </div>
+
+            <div class="text-sm text-gray-700 space-y-1 text-right">
+              <div>
+                Total Marks: <span class="font-bold">{{ selectedQuiz.totMarks }}</span>
+              </div>
+
+              <div>
+                Time Limit: <span class="font-bold">{{ selectedQuiz.timeLimit }} mins</span>
+              </div>
+              <div>
+                Due: <span class="font-bold">{{ selectedQuiz.dueDate | date }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form [formGroup]="quizForm" (ngSubmit)="submitQuiz()" class="space-y-4">
+          <div formArrayName="questions">
+            @for (item of questions.controls; track $index) {
+            <div [formGroupName]="$index" class="border rounded-lg p-4 bg-white mb-2">
+              <div class="mb-3">
+                <div class="text-sm text-gray-600">Question {{ $index + 1 }}</div>
+                <div class="font-medium mt-1">{{ selectedQuiz.questions[$index].question }}</div>
+              </div>
+
+              <fieldset class="space-y-2">
+                <legend class="sr-only">Options for question {{ +1 }}</legend>
+
+                <label class="flex items-center gap-3">
+                  <input type="radio" [value]="'A'" formControlName="answer" />
+                  <span>{{ selectedQuiz.questions[$index].A }}</span>
+                </label>
+
+                <label class="flex items-center gap-3">
+                  <input type="radio" [value]="'B'" formControlName="answer" />
+                  <span>{{ selectedQuiz.questions[$index].B }}</span>
+                </label>
+
+                <label class="flex items-center gap-3">
+                  <input type="radio" [value]="'C'" formControlName="answer" />
+                  <span>{{ selectedQuiz.questions[$index].C }}</span>
+                </label>
+
+                <label class="flex items-center gap-3">
+                  <input type="radio" [value]="'D'" formControlName="answer" />
+                  <span>{{ selectedQuiz.questions[$index].D }}</span>
+                </label>
+              </fieldset>
+            </div>
+            }
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 pt-4">
+            <button
+              type="submit"
+              class="px-4 py-2 bg-primary disabled:opacity-50 cursor-pointer text-white rounded-md text-sm"
+              [disabled]="quizForm.invalid"
+            >
+              Submit Answers
+            </button>
+          </div>
+        </form>
+      </div>
+      }
+    </section>
+  </main>
+</div>

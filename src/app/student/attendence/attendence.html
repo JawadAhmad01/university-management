@@ -1,0 +1,131 @@
+<div
+  class="min-h-screen sm-w-full bg-gray-50 text-gray-800 flex absolute right-0"
+  style="width: 80vw"
+>
+  <main class="flex-1 overflow-y-auto p-6 md:p-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+        <div>
+          <h2 class="text-3xl font-serif font-bold text-primary">Attendance Overview</h2>
+          <div class="text-sm text-gray-500 mt-1">Fall 2025 Semester • Batch 2023</div>
+        </div>
+      </div>
+
+      <!-- Summary Stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="card flex items-center p-6 border-l-4 border-blue-500">
+          <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 12l2 2 4-4m0 0l6 6 4-4M13 6l4 4"
+              />
+            </svg>
+          </div>
+          <div>
+            <div class="text-sm text-gray-500 font-medium">Presents</div>
+            <div class="text-2xl font-bold text-gray-800">
+              {{ totalPresents }}
+            </div>
+          </div>
+        </div>
+
+        <div class="card flex items-center p-6 border-l-4 border-red-500">
+          <div class="p-3 rounded-full bg-red-100 text-red-600 mr-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01M4.93 4.93l14.14 14.14"
+              />
+            </svg>
+          </div>
+          <div>
+            <div class="text-sm text-gray-500 font-medium">Absents</div>
+            <div class="text-2xl font-bold text-gray-800">
+              {{ totalAbsents }}
+            </div>
+          </div>
+        </div>
+
+        <div class="card flex items-center p-6 border-l-4 border-green-500">
+          <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v6l4 2"
+              />
+            </svg>
+          </div>
+          <div>
+            <div class="text-sm text-gray-500 font-medium">Total Classes</div>
+            <div class="text-2xl font-bold text-gray-800">
+              {{ totalClasses }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="font-bold text-lg text-primary">Course-wise Attendance</h3>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="text-xs text-gray-500 uppercase bg-gray-50">
+              <tr>
+                <th class="px-4 py-3 rounded-l-lg">Course</th>
+                <th class="px-4 py-3">Total Classes</th>
+                <th class="px-4 py-3">Attended</th>
+                <th class="px-4 py-3">Percentage</th>
+                <th class="px-4 py-3 rounded-r-lg">Status</th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-100">
+              @for (item of studAtendanceArr; track $index) {
+              <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-4 py-3 font-medium text-gray-900">
+                  {{ item.subject }}
+                </td>
+                <td class="px-4 py-3 text-gray-600">
+                  {{ item.totalClasses }}
+                </td>
+                <td class="px-4 py-3 text-gray-600">
+                  {{ item.attended }}
+                </td>
+                <td
+                  [ngClass]="
+                    (item.attended / item.totalClasses) * 100 > 75
+                      ? 'text-green-600'
+                      : 'text-red-500'
+                  "
+                  class="px-4 py-3 font-semibold"
+                >
+                  {{ (item.attended / item.totalClasses) * 100 }}%
+                </td>
+                @if ((item.attended / item.totalClasses) * 100 > 90 ) {
+                <td class="px-4 py-3 text-green-800 font-bold">Perfect</td>
+                } @else if ((item.attended / item.totalClasses) * 100 > 80 ) {
+                <td class="px-4 py-3 text-green-600 font-bold">Good</td>
+                } @else if ((item.attended / item.totalClasses) * 100 > 75 ) {
+                <td class="px-4 py-3 text-yelow-600 font-bold">Attention</td>
+                } @else if ((item.attended / item.totalClasses) * 100 < 75 ) {
+                <td class="px-4 py-3 text-red-600 font-bold">Danger</td>
+                }
+              </tr>
+
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

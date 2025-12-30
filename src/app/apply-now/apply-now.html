@@ -1,0 +1,113 @@
+<div class="min-h-screen w-full my-15 bg-gray-50 text-gray-800 flex absolute right-0 outlineNONE">
+  <main class="flex-1 overflow-y-auto p-6 md:p-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-1">
+        <h2 class="text-3xl font-serif font-bold text-primary">Apply Online</h2>
+        <p class="text-sm text-gray-500 mt-1">Submit your application for admission</p>
+      </div>
+
+      <div class="bg-white shadow rounded-2xl p-8 border border-gray-100">
+        <form [formGroup]="applyForm" (ngSubmit)="submitApplication()" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium mb-1">Full Name</label>
+              <input
+                type="text"
+                class="w-full px-4 py-2 rounded-lg border"
+                formControlName="fullName"
+                placeholder="Name"
+              />
+              <span
+                *ngIf="applyForm.get('fullName')?.touched && applyForm.get('fullName')?.invalid"
+                class="text-red-600 text-xs"
+                >Name is required .</span
+              >
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1">Email</label>
+              <input
+                type="email"
+                placeholder="example@ex.com"
+                class="w-full px-4 py-2 rounded-lg border"
+                formControlName="email"
+              />
+              <span
+                *ngIf="applyForm.get('email')?.touched && applyForm.get('email')?.invalid"
+                class="text-red-600 text-xs"
+                >Valid email is required.</span
+              >
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium mb-1">Phone Number</label>
+              <input
+                type="text"
+                class="w-full px-4 py-2 rounded-lg border"
+                formControlName="phone"
+                placeholder="ph#"
+              />
+              <span
+                *ngIf="applyForm.get('phone')?.touched && applyForm.get('phone')?.invalid"
+                class="text-red-600 text-xs"
+                >Enter a valid phone number.</span
+              >
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium mb-1">Program</label>
+              <select class="w-full px-4 py-2 rounded-lg border bg-white" formControlName="program">
+                <option value="">Select Program</option>
+                <option>BS Computer Science</option>
+                <option>BS Software Engineering</option>
+                <option>BS AI</option>
+                <option>BBA</option>
+              </select>
+              <span
+                *ngIf="applyForm.get('program')?.touched && applyForm.get('program')?.invalid"
+                class="text-red-600 text-xs"
+                >Please select a program.</span
+              >
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1">session</label>
+            <select class="w-full px-4 py-2 rounded-lg border bg-white" formControlName="session">
+              <option value="">Select Session</option>
+              <option>Spring 2025</option>
+              <option>Fall 2025</option>
+              <option>Spring 2026</option>
+            </select>
+            <span
+              *ngIf="applyForm.get('semester')?.touched && applyForm.get('semester')?.invalid"
+              class="text-red-600 text-xs"
+              >Please select a semester.</span
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-1">Message (Optional)</label>
+            <textarea
+              rows="4"
+              class="w-full px-4 py-2 rounded-lg border"
+              formControlName="message"
+            ></textarea>
+          </div>
+
+          <div>
+            <button
+              [disabled]="applyForm.invalid"
+              type="submit"
+              class="px-6 py-3 cursor-pointer disabled:cursor-not-allowed bg-primary text-white rounded-lg shadow hover:bg-primary/90 transition font-medium"
+            >
+              Submit Application
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>

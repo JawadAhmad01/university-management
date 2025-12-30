@@ -1,0 +1,94 @@
+<div class="bg-gray-50 text-gray-800 flex absolute top-0 right-0 lg:w-screen" style="width: 75vw">
+  <main class="flex-1 overflow-y-auto p-6">
+    <div class="max-w-7xl">
+      <div>
+        <button
+          (click)="toggleForm()"
+          class="bg-gray-500 cursor-pointer py-1 my-3 rounded px-3 font-medium text-white"
+        >
+          + New Application
+        </button>
+      </div>
+      @if(showhide === false){
+      <div class="card">
+        <h2 class="font-bold">Your Applications</h2>
+        @if(applicationsArr.length === 0){
+        <span>You have not submitted Any Applications</span>
+        } @for (item of applicationsArr; track $index) {
+        <div class="card">
+          <span class="mx-3">Title: {{ item.title }}</span>
+          <span class="mx-3">ApplicationDate: {{ item.applicationDate | date }}</span>
+          <span class="mx-3">Status: {{ item.status }}</span>
+        </div>
+        }
+      </div>
+      } @else{
+      <div class="card">
+        <form [formGroup]="applicationForm" (ngSubmit)="submitApplication()">
+          <div>
+            <div><h2 class="font-bold text-2xl">Application Form</h2></div>
+
+            <label class="block text-sm font-medium mb-1">Teacher Name</label>
+            <input
+              type="text"
+              formControlName="name"
+              placeholder="ALi Raza"
+              class="w-full px-3 py-2 border rounded-lg text-sm"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Department</label>
+            <input
+              type="text"
+              formControlName="dept"
+              placeholder="Computing"
+              class="w-full px-3 py-2 border rounded-lg text-sm"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Date</label>
+            <input
+              type="date"
+              formControlName="date"
+              class="w-full px-3 py-2 border rounded-lg text-sm"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Title</label>
+            <input
+              type="text"
+              formControlName="title"
+              placeholder="Computing"
+              class="w-full px-3 py-2 border rounded-lg text-sm"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Description</label>
+            <textarea
+              type="text"
+              formControlName="details"
+              placeholder="Briefly Describe"
+              class="w-full px-3 py-2 border rounded-lg text-sm"
+            ></textarea>
+          </div>
+          <div>
+            <button
+              [disabled]="applicationForm.invalid"
+              class="mx-2 font-medium disabled:opacity-50 cursor-pointer text-white py-1 bg-zinc-500 px-3 rounded"
+            >
+              Submit
+            </button>
+            <button
+              (click)="applicationForm.reset()"
+              type="reset"
+              class="px-3 font-medium cursor-pointer py-1 rounded mx-2 bg-red-300"
+            >
+              Rest
+            </button>
+          </div>
+        </form>
+      </div>
+      }
+    </div>
+  </main>
+</div>
